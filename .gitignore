@@ -1,0 +1,11 @@
+# common
+.DS_Store
+# .vscode
+*debug_bin*
+log/*
+# for conf
+config.yaml
+!example.env
+!example.yaml
+# build execute file
+name-ns

@@ -1,0 +1,11 @@
+# example.yaml
+log:
+  level: debug
+  path: log/mainnet.dev
+rpc:
+  addr: 0.0.0.0:9006
+  domain: mainnet.dev.ordx.space
+  log_path: log/mainnet.dev
+ordx_rpc:
+  ns_routing: http://192.168.10.101:8001/mainnet/ns/routing/
+  inscription_content: http://192.168.10.101:8001/mainnet/ord/content/

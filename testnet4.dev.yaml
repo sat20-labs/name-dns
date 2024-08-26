@@ -1,0 +1,11 @@
+# example.yaml
+log:
+  level: debug
+  path: log/testnet4.dev
+rpc:
+  addr: 0.0.0.0:9006
+  domain: testnet4.dev.ordx.space
+  log_path: log/testnet4.dev
+ordx_rpc:
+  ns_routing: https://apiprd.ordx.space/testnet4/ns/routing/
+  inscription_content: https://apiprd.ordx.space/testnet4/ord/content/
