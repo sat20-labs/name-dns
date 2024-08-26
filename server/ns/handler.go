@@ -10,17 +10,11 @@ import (
 )
 
 func (s *Service) getContent(c *gin.Context) {
-	hostParts := strings.Split(c.Request.Host, ".")
-	if len(hostParts) < 3 {
-		common.Log.Error("invalid host")
-		return
-	}
-
 	if !strings.Contains(c.Request.Host, s.rpcConfig.Domain) {
 		c.String(http.StatusNotFound, "invalid host")
 		return
 	}
-	name := strings.TrimSuffix(c.Request.Host, s.rpcConfig.Domain)
+	name := strings.TrimSuffix(c.Request.Host, "."+s.rpcConfig.Domain)
 	if name == "" {
 		c.String(http.StatusNotFound, "invalid host")
 		return
