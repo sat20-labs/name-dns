@@ -2,8 +2,10 @@ package ns
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sat20-labs/name-ns/common"
@@ -25,7 +27,11 @@ func (s *Service) getContent(c *gin.Context) {
 		c.String(http.StatusNotFound, "invalid host")
 		return
 	}
+
+	startTime := time.Now()
 	nsRoutingResp, _, err := common.RpcRequest(s.ordxRpcConfig.NsRouting, name, "GET")
+	elapsed := time.Since(startTime)
+	common.Log.Info(fmt.Sprintf("call: %s, elapsed time: %s", s.ordxRpcConfig.NsRouting+name, elapsed))
 	if err != nil {
 		common.Log.Error(err)
 		c.String(http.StatusInternalServerError, err.Error())
@@ -45,7 +51,10 @@ func (s *Service) getContent(c *gin.Context) {
 		return
 	}
 
+	startTime = time.Now()
 	inscriptionContent, header, err := common.RpcRequest(s.ordxRpcConfig.InscriptionContent, nameRoutingResp.Data.InscriptionId, "GET")
+	elapsed = time.Since(startTime)
+	common.Log.Info(fmt.Sprintf("call: %s, elapsed time: %s", s.ordxRpcConfig.InscriptionContent+nameRoutingResp.Data.InscriptionId, elapsed))
 	if err != nil {
 		common.Log.Error(err)
 		c.String(http.StatusInternalServerError, err.Error())
