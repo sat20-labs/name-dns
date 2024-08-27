@@ -1,12 +1,15 @@
-# example.yaml
+db:
+  path: db
 log:
   level: debug
   path: log/mainnet.dev
 rpc:
   addr: 0.0.0.0:9005
-  # domain: mainnet.dev.ordx.space
-  domain: ordx.space
+  domain_list:
+    - mainnet.dev.ordx.space
   log_path: log/mainnet.dev
 ordx_rpc:
+  # ns_routing: https://apiprd.ordx.space/mainnet/ns/routing/
+  # inscription_content: https://apiprd.ordx.space/mainnet/ord/content/
   ns_routing: http://192.168.10.101:8001/mainnet/ns/routing/
   inscription_content: http://192.168.10.101:8001/mainnet/ord/content/

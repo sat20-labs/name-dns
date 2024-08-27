@@ -76,17 +76,18 @@ func InitRpc() error {
 	if err != nil {
 		return err
 	}
-
 	ordxRpcConfig, err := serverCommon.ParseOrdxRpcConfig(mainCommon.YamlCfg.OrdxRpc)
 	if err != nil {
 		return err
 	}
+	rpc = server.NewRpc(rpcConfig, ordxRpcConfig, store)
+	return nil
+}
 
-	rpc = server.NewRpc(rpcConfig, ordxRpcConfig)
-	err = rpc.Start(rpcConfig.Addr, rpcConfig.LogPath)
+func RunRpc() error {
+	err := rpc.Start()
 	if err != nil {
 		return err
 	}
-	common.Log.Info("rpc started")
 	return nil
 }

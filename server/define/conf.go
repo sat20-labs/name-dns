@@ -1,9 +1,9 @@
 package define
 
 type Rpc struct {
-	Addr    string `yaml:"addr"`
-	Domain  string `yaml:"domain"`
-	LogPath string `yaml:"log_path"`
+	Addr       string   `yaml:"addr"`
+	DomainList []string `yaml:"domain_list"`
+	LogPath    string   `yaml:"log_path"`
 }
 
 type OrdxRpc struct {

@@ -9,18 +9,31 @@ import (
 func init() {
 	flag.ParseCmdParams()
 	g.InitSigInt()
+
+	err := g.InitDB()
+	if err != nil {
+		common.Log.Fatal(err)
+	}
+	common.Log.Info("init db")
+
+	err = g.InitRpc()
+	if err != nil {
+		common.Log.Fatal(err)
+	}
+	common.Log.Info("init rpc")
 }
 
 func main() {
-	common.Log.Info("Starting...")
+	common.Log.Info("starting...")
 	defer func() {
-		common.Log.Info("shut down")
+		g.ReleaseDB()
+		common.Log.Info("release db")
+		common.Log.Info("shutdown...")
 	}()
-	err := g.InitRpc()
+	err := g.RunRpc()
 	if err != nil {
-		common.Log.Error(err)
-		return
+		common.Log.Fatal(err)
 	}
-
+	common.Log.Info("rpc started")
 	select {}
 }

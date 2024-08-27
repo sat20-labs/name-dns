@@ -3,20 +3,22 @@ module github.com/sat20-labs/name-ns
 go 1.22.1
 
 require (
-	github.com/gin-contrib/cors v1.5.0
-	github.com/gin-contrib/logger v1.0.0
+	github.com/gin-contrib/cors v1.7.2
+	github.com/gin-contrib/logger v1.1.2
 	github.com/gin-gonic/gin v1.10.0
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
 	github.com/sirupsen/logrus v1.9.3
 )
 
-require github.com/sat20-labs/gzip v0.0.0-20240626102838-3a9c9e96f75f
+require (
+	github.com/sat20-labs/gzip v0.0.0-20240626102838-3a9c9e96f75f
+	go.etcd.io/bbolt v1.3.11
+)
 
 require (
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
 	github.com/cloudwego/iasm v0.2.0 // indirect
-	github.com/go-pkgz/expirable-cache v0.1.0 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
@@ -25,7 +27,6 @@ require (
 
 require (
 	github.com/bytedance/sonic v1.11.8 // indirect
-	github.com/didip/tollbooth/v7 v7.0.1
 	github.com/gabriel-vasile/mimetype v1.4.4 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
@@ -43,7 +44,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/rs/zerolog v1.31.0
+	github.com/rs/zerolog v1.32.0
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	golang.org/x/arch v0.8.0 // indirect

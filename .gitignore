@@ -2,7 +2,8 @@
 .DS_Store
 # .vscode
 *debug_bin*
-log/*
+log
+db
 # for conf
 config.yaml
 !example.env

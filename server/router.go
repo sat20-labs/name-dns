@@ -16,6 +16,7 @@ import (
 	"github.com/sat20-labs/gzip"
 	serverCommon "github.com/sat20-labs/name-ns/server/define"
 	"github.com/sat20-labs/name-ns/server/ns"
+	"go.etcd.io/bbolt"
 )
 
 const (
@@ -37,13 +38,19 @@ type Rpc struct {
 	nsService *ns.Service
 }
 
-func NewRpc(rpcConfig *serverCommon.Rpc, ordxRpcConfig *serverCommon.OrdxRpc) *Rpc {
+func NewRpc(
+	rpcConfig *serverCommon.Rpc,
+	ordxRpcConfig *serverCommon.OrdxRpc,
+	db *bbolt.DB,
+) *Rpc {
 	return &Rpc{
-		nsService: ns.New(rpcConfig, ordxRpcConfig),
+		nsService: ns.New(rpcConfig, ordxRpcConfig, db),
 	}
 }
 
-func (s *Rpc) Start(rpcUrl, rpcLogFile string) error {
+func (s *Rpc) Start() error {
+	rpcUrl := s.nsService.RpcConfig.Addr
+	rpcLogFile := s.nsService.RpcConfig.LogPath
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	var writers []io.Writer
@@ -84,28 +91,28 @@ func (s *Rpc) Start(rpcUrl, rpcLogFile string) error {
 	r.Use(cors.New(config))
 
 	// common header
-	r.Use(func(c *gin.Context) {
-		c.Writer.Header().Set(VARY, "Origin")
-		c.Writer.Header().Add(VARY, "Access-Control-Request-Method")
-		c.Writer.Header().Add(VARY, "Access-Control-Request-Headers")
+	// r.Use(func(c *gin.Context) {
+	// 	c.Writer.Header().Set(VARY, "Origin")
+	// 	c.Writer.Header().Add(VARY, "Access-Control-Request-Method")
+	// 	c.Writer.Header().Add(VARY, "Access-Control-Request-Headers")
 
-		c.Writer.Header().Del(CONTENT_SECURITY_POLICY)
-		c.Writer.Header().Set(
-			CONTENT_SECURITY_POLICY,
-			"default-src 'self'",
-		)
+	// 	c.Writer.Header().Del(CONTENT_SECURITY_POLICY)
+	// 	c.Writer.Header().Set(
+	// 		CONTENT_SECURITY_POLICY,
+	// 		"default-src 'self'",
+	// 	)
 
-		c.Writer.Header().Set(
-			STRICT_TRANSPORT_SECURITY,
-			"max-age=31536000; includeSubDomains; preload",
-		)
+	// 	c.Writer.Header().Set(
+	// 		STRICT_TRANSPORT_SECURITY,
+	// 		"max-age=31536000; includeSubDomains; preload",
+	// 	)
 
-		c.Writer.Header().Set(
-			ACCESS_CONTROL_ALLOW_ORIGIN,
-			"*",
-		)
-		c.Next()
-	})
+	// 	c.Writer.Header().Set(
+	// 		ACCESS_CONTROL_ALLOW_ORIGIN,
+	// 		"*",
+	// 	)
+	// 	c.Next()
+	// })
 
 	// zip
 	r.Use(
@@ -119,7 +126,10 @@ func (s *Rpc) Start(rpcUrl, rpcLogFile string) error {
 	)
 
 	// router
-	s.nsService.InitRouter(r)
+	err := s.nsService.Init(r)
+	if err != nil {
+		return err
+	}
 
 	parts := strings.Split(rpcUrl, ":")
 	if len(parts) < 2 {

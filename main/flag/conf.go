@@ -25,6 +25,14 @@ func LoadConf(cfgPath string) (*conf.Conf, error) {
 		return nil, fmt.Errorf("failed to decode cfg: %s, error: %s", cfgPath, err)
 	}
 
+	if ret.DB.Path == "" {
+		ret.DB.Path = "./db/"
+	}
+	ret.DB.Path = filepath.FromSlash(ret.DB.Path)
+	if ret.DB.Path[len(ret.DB.Path)-1] != filepath.Separator {
+		ret.DB.Path += string(filepath.Separator)
+	}
+
 	_, err = logrus.ParseLevel(ret.Log.Level)
 	if err != nil {
 		ret.Log.Level = "info"
@@ -44,6 +52,9 @@ func LoadConf(cfgPath string) (*conf.Conf, error) {
 	if rpcService.Addr == "" {
 		rpcService.Addr = "0.0.0.0:80"
 	}
+	if len(rpcService.DomainList) == 0 {
+		rpcService.DomainList = []string{}
+	}
 	if rpcService.LogPath == "" {
 		rpcService.LogPath = "log"
 	}
@@ -53,14 +64,17 @@ func LoadConf(cfgPath string) (*conf.Conf, error) {
 
 func NewDefaultYamlConf() (*conf.Conf, error) {
 	ret := &conf.Conf{
+		DB: conf.DB{
+			Path: "db",
+		},
 		Log: conf.Log{
 			Level: "error",
 			Path:  "log",
 		},
 		Rpc: serverCommon.Rpc{
-			Addr:    "0.0.0.0:80",
-			Domain:  "ordx.space",
-			LogPath: "log",
+			Addr:       "0.0.0.0:80",
+			DomainList: []string{},
+			LogPath:    "log",
 		},
 		OrdxRpc: serverCommon.OrdxRpc{
 			NsRouting:          "https://apiprd.ordx.space/testnet4/ns/name/",

@@ -56,8 +56,7 @@ func generateConfigFile() error {
 	return SaveYamlConf(cfg, cfgPath+"/config.yaml")
 }
 
-func InitConf(cfgPath string) error {
-	var err error
+func InitConf(cfgPath string) (err error) {
 	mainCommon.YamlCfg, err = LoadConf(cfgPath)
-	return err
+	return
 }
