@@ -3,7 +3,6 @@ package ns
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"strings"
 	"time"
@@ -12,19 +11,7 @@ import (
 	"github.com/sat20-labs/name-ns/common"
 )
 
-func (s *Service) getNameCount(c *gin.Context) {
-	name := c.Param("name")
-	count, err := getNameCount(s.DB, name)
-	if err != nil {
-		common.Log.Error(err)
-		c.String(http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"name": name, "count": count})
-}
-
-func (s *Service) getContent(c *gin.Context) {
+func (s *Service) content(c *gin.Context) {
 	isMatch := false
 	name := ""
 	for _, domain := range s.RpcConfig.DomainList {
@@ -76,11 +63,6 @@ func (s *Service) getContent(c *gin.Context) {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
-	for key, values := range header {
-		for _, value := range values {
-			c.Writer.Header().Add(key, value)
-		}
-	}
 
 	contentType := header.Get("Content-Type")
 	c.Data(http.StatusOK, contentType, inscriptionContent)
@@ -88,34 +70,4 @@ func (s *Service) getContent(c *gin.Context) {
 	if err := incrementNameCount(s.DB, name); err != nil {
 		common.Log.Error(err)
 	}
-}
-
-func (s *Service) proxyReq(c *gin.Context) {
-	url := c.Query("url")
-	if url == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "URL parameter is missing"})
-		return
-	}
-
-	resp, err := http.Get(url)
-	if err != nil {
-		common.Log.Error(err)
-		c.String(http.StatusInternalServerError, err.Error())
-		return
-	}
-	defer resp.Body.Close()
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		common.Log.Error(err)
-		c.String(http.StatusInternalServerError, err.Error())
-		return
-	}
-	for key, values := range resp.Header {
-		for _, value := range values {
-			c.Writer.Header().Add(key, value)
-		}
-	}
-
-	c.Data(resp.StatusCode, resp.Header.Get("Content-Type"), body)
 }

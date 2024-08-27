@@ -4,6 +4,11 @@ import (
 	serverOrdx "github.com/sat20-labs/name-ns/server/define"
 )
 
+type NameCount struct {
+	Name  string
+	Count int
+}
+
 type NameRoutingResp struct {
 	serverOrdx.BaseResp
 	Data *NameRouting `json:"data"`

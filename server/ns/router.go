@@ -35,7 +35,6 @@ func (s *Service) Init(r *gin.Engine) (err error) {
 }
 
 func (s *Service) initRouter(r *gin.Engine) {
-	r.GET("/", s.getContent)
-	r.GET("/namecount/:name", s.getNameCount)
-	r.GET("/proxyreq", s.proxyReq)
+	r.GET("/", s.content)
+	r.GET("/summary/name-count", s.countHtml)
 }

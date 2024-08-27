@@ -19,21 +19,6 @@ import (
 	"go.etcd.io/bbolt"
 )
 
-const (
-	STRICT_TRANSPORT_SECURITY   = "strict-transport-security"
-	CONTENT_SECURITY_POLICY     = "content-security-policy"
-	CACHE_CONTROL               = "cache-control"
-	VARY                        = "vary"
-	ACCESS_CONTROL_ALLOW_ORIGIN = "access-control-allow-origin"
-	TRANSFER_ENCODING           = "transfer-encoding"
-	CONTENT_ENCODING            = "content-encoding"
-)
-
-const (
-	CONTEXT_TYPE_TEXT = "text/html; charset=utf-8"
-	CONTENT_TYPE_JSON = "application/json"
-)
-
 type Rpc struct {
 	nsService *ns.Service
 }
@@ -89,30 +74,6 @@ func (s *Rpc) Start() error {
 	config.AllowOrigins = []string{"*"}
 	config.OptionsResponseStatusCode = 200
 	r.Use(cors.New(config))
-
-	// common header
-	// r.Use(func(c *gin.Context) {
-	// 	c.Writer.Header().Set(VARY, "Origin")
-	// 	c.Writer.Header().Add(VARY, "Access-Control-Request-Method")
-	// 	c.Writer.Header().Add(VARY, "Access-Control-Request-Headers")
-
-	// 	c.Writer.Header().Del(CONTENT_SECURITY_POLICY)
-	// 	c.Writer.Header().Set(
-	// 		CONTENT_SECURITY_POLICY,
-	// 		"default-src 'self'",
-	// 	)
-
-	// 	c.Writer.Header().Set(
-	// 		STRICT_TRANSPORT_SECURITY,
-	// 		"max-age=31536000; includeSubDomains; preload",
-	// 	)
-
-	// 	c.Writer.Header().Set(
-	// 		ACCESS_CONTROL_ALLOW_ORIGIN,
-	// 		"*",
-	// 	)
-	// 	c.Next()
-	// })
 
 	// zip
 	r.Use(

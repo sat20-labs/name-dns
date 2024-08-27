@@ -39,3 +39,37 @@ func getNameCount(db *bbolt.DB, name string) (int, error) {
 
 	return count, err
 }
+
+func getNameCounts(db *bbolt.DB, page, pageSize int) ([]NameCount, int, error) {
+	var nameCounts []NameCount
+	var total int
+
+	err := db.View(func(tx *bbolt.Tx) error {
+		bucket := tx.Bucket([]byte(BUCKET_NAME))
+		cursor := bucket.Cursor()
+
+		skip := (page - 1) * pageSize
+		count := 0
+
+		for k, v := cursor.First(); k != nil; k, v = cursor.Next() {
+			if skip > 0 {
+				skip--
+				continue
+			}
+
+			if count >= pageSize {
+				break
+			}
+
+			name := string(k)
+			countVal := int(binary.BigEndian.Uint32(v))
+			nameCounts = append(nameCounts, NameCount{Name: name, Count: countVal})
+			count++
+		}
+
+		total = bucket.Stats().KeyN
+		return nil
+	})
+
+	return nameCounts, total, err
+}

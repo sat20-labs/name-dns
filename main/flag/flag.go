@@ -58,5 +58,16 @@ func generateConfigFile() error {
 
 func InitConf(cfgPath string) (err error) {
 	mainCommon.YamlCfg, err = LoadConf(cfgPath)
+	if err != nil {
+		return err
+	}
+
+	dbPath := mainCommon.YamlCfg.DB.Path
+	if _, err := os.Stat(dbPath); os.IsNotExist(err) {
+		err := os.MkdirAll(dbPath, os.ModePerm)
+		if err != nil {
+			return err
+		}
+	}
 	return
 }
