@@ -36,6 +36,7 @@ func (s *Service) getContent(c *gin.Context) {
 			continue
 		}
 		isMatch = true
+		break
 	}
 	if !isMatch {
 		msg := fmt.Sprintf("no match domain %s", c.Request.Host)
