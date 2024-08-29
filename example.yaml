@@ -7,10 +7,10 @@ log:
 rpc:
   addr: 0.0.0.0:9001
   domain_list:
-    - testnet4.ordx.space
+    - testnet4.sat20.org
   log_path: log/testnet4.prd
 ordx_rpc:
-  # ns_routing: https://apiprd.ordx.space/testnet4/ns/routing/
-  # inscription_content: https://apiprd.ordx.space/testnet4/ord/content/
+  # ns_routing: https://apiprd.sat20.org/testnet4/ns/routing/
+  # inscription_content: https://apiprd.sat20.org/testnet4/ord/content/
   ns_routing: http://192.168.10.101:8007/testnet4/ns/routing/
   inscription_content: http://192.168.10.101:8007/testnet4/ord/content/

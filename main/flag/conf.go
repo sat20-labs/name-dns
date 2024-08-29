@@ -77,8 +77,8 @@ func NewDefaultYamlConf() (*conf.Conf, error) {
 			LogPath:    "log",
 		},
 		OrdxRpc: serverCommon.OrdxRpc{
-			NsRouting:          "https://apiprd.ordx.space/testnet4/ns/name/",
-			InscriptionContent: "https://apiprd.ordx.space/testnet4/ord/content/",
+			NsRouting:          "https://apiprd.sat20.org/testnet4/ns/name/",
+			InscriptionContent: "https://apiprd.sat20.org/testnet4/ord/content/",
 		},
 	}
 
