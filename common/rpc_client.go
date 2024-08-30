@@ -19,15 +19,15 @@ func RpcRequest(rpcUrl, path, method string) ([]byte, http.Header, error) {
 	req.Header.Set("Accept", "application/json")
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, nil, fmt.Errorf("RpcRequest: failed to fetch data")
+		return nil, nil, fmt.Errorf("RpcRequest-> url: %s, error: %s", p, err.Error())
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != 200 {
 		msgData, err := io.ReadAll(resp.Body)
 		if err != nil {
-			return nil, nil, fmt.Errorf("RpcRequest: failed to fetch data, statusCode: %v, error: %s", resp.StatusCode, err.Error())
+			return nil, nil, fmt.Errorf("RpcRequest-> url: %s, statusCode: %v, error: %s", p, resp.StatusCode, err.Error())
 		}
-		return nil, nil, fmt.Errorf("RpcRequest: failed to fetch data, statusCode: %v, error: %s", resp.StatusCode, string(msgData))
+		return nil, nil, fmt.Errorf("RpcRequest-> url: %s, statusCode: %v, body: %s", p, resp.StatusCode, string(msgData))
 	}
 	data, err := io.ReadAll(resp.Body)
 	if err != nil {
