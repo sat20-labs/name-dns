@@ -18,6 +18,9 @@ func (s *Service) content(c *gin.Context) {
 		if !strings.Contains(c.Request.Host, domain) {
 			continue
 		}
+		if c.Request.Host == domain {
+			continue
+		}
 		name = strings.TrimSuffix(c.Request.Host, "."+domain)
 		if name == "" {
 			continue
