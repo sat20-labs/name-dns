@@ -6,10 +6,10 @@ log:
 rpc:
   addr: 0.0.0.0:9005
   domain_list:
-    - deweb.me
     - btc.deweb.me
     - x.deweb.me
     - pizza.deweb.me
+    - deweb.me
   log_path: log/mainnet.dev
 ordx_rpc:
   # ns_routing: https://apiprd.sat20.org/mainnet/ns/routing/
