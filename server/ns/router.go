@@ -8,20 +8,23 @@ import (
 )
 
 type Service struct {
-	RpcConfig     *serverCommon.Rpc
-	OrdxRpcConfig *serverCommon.OrdxRpc
-	DB            *bbolt.DB
+	RpcConfig         *serverCommon.Rpc
+	OrdxRpcConfig     *serverCommon.OrdxRpc
+	OrdinalsRpcConfig *serverCommon.OrdinalsRpc
+	DB                *bbolt.DB
 }
 
 func New(
 	rpcConfig *serverCommon.Rpc,
 	ordxRpcConfig *serverCommon.OrdxRpc,
+	ordinalsRpcConfig *serverCommon.OrdinalsRpc,
 	db *bbolt.DB) *Service {
 
 	return &Service{
-		RpcConfig:     rpcConfig,
-		OrdxRpcConfig: ordxRpcConfig,
-		DB:            db,
+		RpcConfig:         rpcConfig,
+		OrdxRpcConfig:     ordxRpcConfig,
+		OrdinalsRpcConfig: ordinalsRpcConfig,
+		DB:                db,
 	}
 }
 
@@ -37,4 +40,7 @@ func (s *Service) Init(r *gin.Engine) (err error) {
 func (s *Service) initRouter(r *gin.Engine) {
 	r.GET("/", s.content)
 	r.GET("/summary/name-count", s.countHtml)
+	// r.GET("/content", s.content)
+	// r.GET("/content", s.content)
+	// g := r.Group("/")
 }

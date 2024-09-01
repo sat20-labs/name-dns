@@ -80,7 +80,11 @@ func InitRpc() error {
 	if err != nil {
 		return err
 	}
-	rpc = server.NewRpc(rpcConfig, ordxRpcConfig, store)
+	ordinalsRpcConfig, err := serverCommon.ParseOrdinalsRpcConfig(mainCommon.YamlCfg.OrdinalsRpc)
+	if err != nil {
+		return err
+	}
+	rpc = server.NewRpc(rpcConfig, ordxRpcConfig, ordinalsRpcConfig, store)
 	return nil
 }
 

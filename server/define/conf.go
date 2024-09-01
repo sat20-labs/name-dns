@@ -10,3 +10,7 @@ type OrdxRpc struct {
 	NsRouting          string `yaml:"ns_routing"`
 	InscriptionContent string `yaml:"inscription_content"`
 }
+
+type OrdinalsRpc struct {
+	Host string `yaml:"host"`
+}
