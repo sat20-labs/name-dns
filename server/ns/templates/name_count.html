@@ -23,10 +23,10 @@
     </table>
     <div>
         {{if gt .Page 1}}
-        <a href="/summary/nameCounts?page={{.PrevPage}}&pageSize={{.PageSize}}">Previous</a>
+        <a href="/summary/name-count?page={{.PrevPage}}&pageSize={{.PageSize}}">Previous</a>
         {{end}}
         {{if lt .Page .TotalPages}}
-        <a href="/summary/nameCounts?page={{.NextPage}}&pageSize={{.PageSize}}">Next</a>
+        <a href="/summary/name-count?page={{.NextPage}}&pageSize={{.PageSize}}">Next</a>
         {{end}}
     </div>
 </body>
