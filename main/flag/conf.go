@@ -80,9 +80,6 @@ func NewDefaultYamlConf() (*conf.Conf, error) {
 			NsRouting:          "https://apiprd.sat20.org/testnet4/ns/name/",
 			InscriptionContent: "https://apiprd.sat20.org/testnet4/ord/content/",
 		},
-		OrdinalsRpc: serverCommon.OrdinalsRpc{
-			Host: "https://testnet4-ordinals.sat20.org/",
-		},
 	}
 
 	return ret, nil

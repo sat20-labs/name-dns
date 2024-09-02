@@ -13,5 +13,3 @@ ordx_rpc:
   # inscription_content: https://apiprd.sat20.org/testnet4/ord/content/
   ns_routing: http://192.168.10.101:8007/testnet4/ns/routing/
   inscription_content: http://192.168.10.101:8007/testnet4/ord/content/
-ordinals_rpc:
-  host: https://testnet4-ordinals.sat20.org/

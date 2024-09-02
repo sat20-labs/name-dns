@@ -13,5 +13,3 @@ ordx_rpc:
   # inscription_content: https://apiprd.sat20.org/mainnet/ord/content/
   ns_routing: http://192.168.10.101:8001/mainnet/ns/routing/
   inscription_content: http://192.168.10.101:8001/mainnet/ord/content/
-ordinals_rpc:
-  host: https://mainnet-ordinals.sat20.org/

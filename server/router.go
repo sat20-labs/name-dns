@@ -26,11 +26,10 @@ type Rpc struct {
 func NewRpc(
 	rpcConfig *serverCommon.Rpc,
 	ordxRpcConfig *serverCommon.OrdxRpc,
-	ordinalsRpcConfig *serverCommon.OrdinalsRpc,
 	db *bbolt.DB,
 ) *Rpc {
 	return &Rpc{
-		nsService: ns.New(rpcConfig, ordxRpcConfig, ordinalsRpcConfig, db),
+		nsService: ns.New(rpcConfig, ordxRpcConfig, db),
 	}
 }
 

@@ -8,23 +8,20 @@ import (
 )
 
 type Service struct {
-	RpcConfig         *serverCommon.Rpc
-	OrdxRpcConfig     *serverCommon.OrdxRpc
-	OrdinalsRpcConfig *serverCommon.OrdinalsRpc
-	DB                *bbolt.DB
+	RpcConfig     *serverCommon.Rpc
+	OrdxRpcConfig *serverCommon.OrdxRpc
+	DB            *bbolt.DB
 }
 
 func New(
 	rpcConfig *serverCommon.Rpc,
 	ordxRpcConfig *serverCommon.OrdxRpc,
-	ordinalsRpcConfig *serverCommon.OrdinalsRpc,
 	db *bbolt.DB) *Service {
 
 	return &Service{
-		RpcConfig:         rpcConfig,
-		OrdxRpcConfig:     ordxRpcConfig,
-		OrdinalsRpcConfig: ordinalsRpcConfig,
-		DB:                db,
+		RpcConfig:     rpcConfig,
+		OrdxRpcConfig: ordxRpcConfig,
+		DB:            db,
 	}
 }
 
