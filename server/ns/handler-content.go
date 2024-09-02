@@ -35,7 +35,7 @@ func (s *Service) content(c *gin.Context) {
 	}
 
 	startTime := time.Now()
-	nsRoutingResp, _, err := common.HttpRequest(s.OrdxRpcConfig.NsRouting, name, "GET", true)
+	nsRoutingResp, _, err := common.ApiRequest(s.OrdxRpcConfig.NsRouting, name, "GET")
 	elapsed := time.Since(startTime)
 	common.Log.Info(fmt.Sprintf("call: %s, elapsed time: %s", s.OrdxRpcConfig.NsRouting+name, elapsed))
 	if err != nil {
@@ -56,11 +56,15 @@ func (s *Service) content(c *gin.Context) {
 		c.String(http.StatusNotFound, nameRoutingResp.Msg)
 		return
 	}
+	if nameRoutingResp.Data.Index == "" {
+		c.String(http.StatusNotFound, "no find name routeing, Data.Index is empty")
+		return
+	}
 
 	startTime = time.Now()
-	inscriptionContent, header, err := common.HttpRequest(
-		s.OrdxRpcConfig.InscriptionContent, nameRoutingResp.Data.Index, "GET", false)
+	inscriptionContent, header, err := common.HtmlRequest(s.OrdxRpcConfig.InscriptionContent, nameRoutingResp.Data.Index)
 	elapsed = time.Since(startTime)
+
 	common.Log.Info(fmt.Sprintf("call: %s, elapsed time: %s", s.OrdxRpcConfig.InscriptionContent+nameRoutingResp.Data.Index, elapsed))
 	if err != nil {
 		common.Log.Error(err)
@@ -69,8 +73,16 @@ func (s *Service) content(c *gin.Context) {
 	}
 
 	contentType := header.Get("Content-Type")
-	c.Data(http.StatusOK, contentType, inscriptionContent)
+	c.Writer.Header().Set("content-encoding", header.Get("content-encoding"))
+	c.Writer.Header().Add("access-control-allow-origin:", "*")
+	c.Writer.Header().Add("cache-control", "public, max-age=1209600, immutable")
+	c.Writer.Header().Add("connection", "keep-alive")
+	c.Writer.Header().Add("transfer-encoding", "chunked")
+	c.Writer.Header().Add("Vary", "origin")
+	c.Writer.Header().Add("Vary", "access-control-request-method")
+	c.Writer.Header().Add("Vary", "access-control-request-headers")
 
+	c.Data(http.StatusOK, contentType, inscriptionContent)
 	if err := s.incNameCount(name); err != nil {
 		common.Log.Error(err)
 	}

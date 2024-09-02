@@ -26,6 +26,7 @@ require (
 )
 
 require (
+	github.com/andybalholm/brotli v1.1.0
 	github.com/bytedance/sonic v1.11.8 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.4 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect

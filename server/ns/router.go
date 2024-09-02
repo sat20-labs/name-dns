@@ -36,6 +36,10 @@ func (s *Service) Init(r *gin.Engine) (err error) {
 	if err != nil {
 		return
 	}
+	err = common.InitBucket(s.DB, BUCKET_COMMON_SUMMARY)
+	if err != nil {
+		return
+	}
 	s.initRouter(r)
 	return
 }
