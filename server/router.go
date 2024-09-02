@@ -13,8 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"github.com/rs/zerolog"
-
-	// "github.com/sat20-labs/gzip"
+	"github.com/sat20-labs/gzip"
 	serverCommon "github.com/sat20-labs/name-dns/server/define"
 	"github.com/sat20-labs/name-dns/server/ns"
 	"go.etcd.io/bbolt"
@@ -77,15 +76,15 @@ func (s *Rpc) Start() error {
 	r.Use(cors.New(config))
 
 	// zip
-	// r.Use(
-	// 	gzip.Gzip(gzip.DefaultCompression,
-	// 		gzip.WithExcludedPathsRegexs(
-	// 			[]string{
-	// 				// `.*\/btc\/.*`,
-	// 			},
-	// 		),
-	// 	),
-	// )
+	r.Use(
+		gzip.Gzip(gzip.DefaultCompression,
+			gzip.WithExcludedPathsRegexs(
+				[]string{
+					// `.*\/btc\/.*`,
+				},
+			),
+		),
+	)
 
 	// router
 	err := s.nsService.Init(r)

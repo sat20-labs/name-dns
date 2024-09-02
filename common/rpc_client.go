@@ -17,6 +17,7 @@ func RpcRequest(rpcUrl, path, method string) ([]byte, http.Header, error) {
 		return nil, nil, err
 	}
 	req.Header.Set("Accept", "application/json")
+	req.Header.Set("Accept-Encoding", "gzip, deflate, br, identity")
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, nil, fmt.Errorf("RpcRequest-> url: %s, error: %s", p, err.Error())
