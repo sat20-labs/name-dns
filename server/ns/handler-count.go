@@ -19,7 +19,7 @@ func (s *Service) countHtml(c *gin.Context) {
 		page = 1
 	}
 
-	pageSize, err := strconv.Atoi(c.DefaultQuery("pageSize", "10"))
+	pageSize, err := strconv.Atoi(c.DefaultQuery("pageSize", "30"))
 	if err != nil || pageSize < 1 {
 		pageSize = 10
 	}
