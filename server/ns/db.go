@@ -8,12 +8,13 @@ import (
 )
 
 const (
-	BUCKET_NAME_COUNT    = "nameCount"
-	KEY_TOTAL_NAME_COUNT = "__totalNameCount__"
+	BUCKET_NAME_COUNT     = "nameCount"
+	BUCKET_COMMON_SUMMARY = "commomSummary"
+	KEY_TOTAL_NAME_COUNT  = "totalNameCount"
 )
 
-func (s *Service) incrementTotalNameCount() error {
-	value, err := common.GetBucket(s.DB, BUCKET_NAME_COUNT, []byte(KEY_TOTAL_NAME_COUNT))
+func (s *Service) incTotalNameCount() error {
+	value, err := common.GetBucket(s.DB, BUCKET_COMMON_SUMMARY, []byte(KEY_TOTAL_NAME_COUNT))
 	if err != nil {
 		return err
 	}
@@ -24,11 +25,11 @@ func (s *Service) incrementTotalNameCount() error {
 	}
 	countBytes := make([]byte, 4)
 	binary.BigEndian.PutUint32(countBytes, uint32(count))
-	return common.PutBucket(s.DB, BUCKET_NAME_COUNT, []byte(KEY_TOTAL_NAME_COUNT), countBytes)
+	return common.PutBucket(s.DB, BUCKET_COMMON_SUMMARY, []byte(KEY_TOTAL_NAME_COUNT), countBytes)
 }
 
 func (s *Service) getTotalNameCount() (int, error) {
-	value, err := common.GetBucket(s.DB, BUCKET_NAME_COUNT, []byte(KEY_TOTAL_NAME_COUNT))
+	value, err := common.GetBucket(s.DB, BUCKET_COMMON_SUMMARY, []byte(KEY_TOTAL_NAME_COUNT))
 	if err != nil {
 		return 0, err
 	}
@@ -41,7 +42,7 @@ func (s *Service) getTotalNameCount() (int, error) {
 	return count, err
 }
 
-func (s *Service) incrementNameCount(name string) error {
+func (s *Service) incNameCount(name string) error {
 	value, err := common.GetBucket(s.DB, BUCKET_NAME_COUNT, []byte(name))
 	if err != nil {
 		return err
