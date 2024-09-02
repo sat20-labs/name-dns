@@ -70,7 +70,10 @@ func (s *Service) content(c *gin.Context) {
 	contentType := header.Get("Content-Type")
 	c.Data(http.StatusOK, contentType, inscriptionContent)
 
-	if err := incrementNameCount(s.DB, name); err != nil {
+	if err := s.incrementNameCount(name); err != nil {
+		common.Log.Error(err)
+	}
+	if err := s.incrementTotalNameCount(); err != nil {
 		common.Log.Error(err)
 	}
 }

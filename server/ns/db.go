@@ -8,11 +8,12 @@ import (
 )
 
 const (
-	BUCKET_NAME = "nameCounts"
+	BUCKET_NAME_COUNT    = "nameCount"
+	KEY_TOTAL_NAME_COUNT = "__totalNameCount__"
 )
 
-func incrementNameCount(db *bbolt.DB, name string) error {
-	value, err := common.GetBucket(db, BUCKET_NAME, []byte(name))
+func (s *Service) incrementTotalNameCount() error {
+	value, err := common.GetBucket(s.DB, BUCKET_NAME_COUNT, []byte(KEY_TOTAL_NAME_COUNT))
 	if err != nil {
 		return err
 	}
@@ -23,11 +24,11 @@ func incrementNameCount(db *bbolt.DB, name string) error {
 	}
 	countBytes := make([]byte, 4)
 	binary.BigEndian.PutUint32(countBytes, uint32(count))
-	return common.PutBucket(db, BUCKET_NAME, []byte(name), countBytes)
+	return common.PutBucket(s.DB, BUCKET_NAME_COUNT, []byte(KEY_TOTAL_NAME_COUNT), countBytes)
 }
 
-func getNameCount(db *bbolt.DB, name string) (int, error) {
-	value, err := common.GetBucket(db, BUCKET_NAME, []byte(name))
+func (s *Service) getTotalNameCount() (int, error) {
+	value, err := common.GetBucket(s.DB, BUCKET_NAME_COUNT, []byte(KEY_TOTAL_NAME_COUNT))
 	if err != nil {
 		return 0, err
 	}
@@ -40,12 +41,27 @@ func getNameCount(db *bbolt.DB, name string) (int, error) {
 	return count, err
 }
 
-func getNameCounts(db *bbolt.DB, page, pageSize int) ([]NameCount, int, error) {
+func (s *Service) incrementNameCount(name string) error {
+	value, err := common.GetBucket(s.DB, BUCKET_NAME_COUNT, []byte(name))
+	if err != nil {
+		return err
+	}
+
+	count := 1
+	if value != nil {
+		count = int(binary.BigEndian.Uint32(value)) + 1
+	}
+	countBytes := make([]byte, 4)
+	binary.BigEndian.PutUint32(countBytes, uint32(count))
+	return common.PutBucket(s.DB, BUCKET_NAME_COUNT, []byte(name), countBytes)
+}
+
+func (s *Service) getNameCounts(page, pageSize int) ([]NameCount, int, error) {
 	var nameCounts []NameCount
 	var total int
 
-	err := db.View(func(tx *bbolt.Tx) error {
-		bucket := tx.Bucket([]byte(BUCKET_NAME))
+	err := s.DB.View(func(tx *bbolt.Tx) error {
+		bucket := tx.Bucket([]byte(BUCKET_NAME_COUNT))
 		cursor := bucket.Cursor()
 
 		skip := (page - 1) * pageSize

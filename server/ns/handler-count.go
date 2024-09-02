@@ -24,7 +24,7 @@ func (s *Service) countHtml(c *gin.Context) {
 		pageSize = 10
 	}
 
-	nameCounts, total, err := getNameCounts(s.DB, page, pageSize)
+	nameCounts, totalPage, err := s.getNameCounts(page, pageSize)
 	if err != nil {
 		common.Log.Error(err)
 		c.String(http.StatusInternalServerError, err.Error())
@@ -39,7 +39,13 @@ func (s *Service) countHtml(c *gin.Context) {
 		return
 	}
 
-	totalPages := (total + pageSize - 1) / pageSize
+	totalCount, err := s.getTotalNameCount()
+	if err != nil {
+		common.Log.Error(err)
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+	totalPages := (totalPage + pageSize - 1) / pageSize
 	data := struct {
 		NameCounts []NameCount
 		Page       int
@@ -47,6 +53,7 @@ func (s *Service) countHtml(c *gin.Context) {
 		NextPage   int
 		PageSize   int
 		TotalPages int
+		TotalCount int
 	}{
 		NameCounts: nameCounts,
 		Page:       page,
@@ -54,6 +61,7 @@ func (s *Service) countHtml(c *gin.Context) {
 		NextPage:   page + 1,
 		PageSize:   pageSize,
 		TotalPages: totalPages,
+		TotalCount: totalCount,
 	}
 
 	c.Header("Content-Type", "text/html; charset=utf-8")

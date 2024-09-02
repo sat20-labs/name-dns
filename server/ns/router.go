@@ -26,7 +26,7 @@ func New(
 }
 
 func (s *Service) Init(r *gin.Engine) (err error) {
-	err = common.InitBucket(s.DB, BUCKET_NAME)
+	err = common.InitBucket(s.DB, BUCKET_NAME_COUNT)
 	if err != nil {
 		return
 	}
