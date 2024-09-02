@@ -35,7 +35,7 @@ func (s *Service) content(c *gin.Context) {
 	}
 
 	startTime := time.Now()
-	nsRoutingResp, _, err := common.RpcRequest(s.OrdxRpcConfig.NsRouting, name, "GET")
+	nsRoutingResp, _, err := common.HttpRequest(s.OrdxRpcConfig.NsRouting, name, "GET", true)
 	elapsed := time.Since(startTime)
 	common.Log.Info(fmt.Sprintf("call: %s, elapsed time: %s", s.OrdxRpcConfig.NsRouting+name, elapsed))
 	if err != nil {
@@ -58,7 +58,8 @@ func (s *Service) content(c *gin.Context) {
 	}
 
 	startTime = time.Now()
-	inscriptionContent, header, err := common.RpcRequest(s.OrdxRpcConfig.InscriptionContent, nameRoutingResp.Data.Index, "GET")
+	inscriptionContent, header, err := common.HttpRequest(
+		s.OrdxRpcConfig.InscriptionContent, nameRoutingResp.Data.Index, "GET", false)
 	elapsed = time.Since(startTime)
 	common.Log.Info(fmt.Sprintf("call: %s, elapsed time: %s", s.OrdxRpcConfig.InscriptionContent+nameRoutingResp.Data.Index, elapsed))
 	if err != nil {

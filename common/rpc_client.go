@@ -7,7 +7,7 @@ import (
 	"net/url"
 )
 
-func RpcRequest(rpcUrl, path, method string) ([]byte, http.Header, error) {
+func HttpRequest(rpcUrl, path, method string, isApi bool) ([]byte, http.Header, error) {
 	p, err := url.JoinPath(rpcUrl, path)
 	if err != nil {
 		return nil, nil, err
@@ -16,8 +16,11 @@ func RpcRequest(rpcUrl, path, method string) ([]byte, http.Header, error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	req.Header.Set("Accept", "application/json")
-	req.Header.Set("Accept-Encoding", "gzip, deflate, br, identity")
+	if isApi {
+		req.Header.Set("Accept", "application/json")
+	} else {
+		req.Header.Set("Accept-Encoding", "gzip, deflate, br, identity")
+	}
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, nil, fmt.Errorf("RpcRequest-> url: %s, error: %s", p, err.Error())

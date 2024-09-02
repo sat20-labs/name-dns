@@ -9,4 +9,4 @@ config.yaml
 !example.env
 !example.yaml
 # build execute file
-name-ns
+name-dns
