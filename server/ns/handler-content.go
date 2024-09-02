@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/sat20-labs/name-ns/common"
+	"github.com/sat20-labs/name-dns/common"
 )
 
 func (s *Service) content(c *gin.Context) {

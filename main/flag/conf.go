@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/sat20-labs/name-ns/main/conf"
-	serverCommon "github.com/sat20-labs/name-ns/server/define"
+	"github.com/sat20-labs/name-dns/main/conf"
+	serverCommon "github.com/sat20-labs/name-dns/server/define"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )

@@ -14,8 +14,8 @@ import (
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"github.com/rs/zerolog"
 	"github.com/sat20-labs/gzip"
-	serverCommon "github.com/sat20-labs/name-ns/server/define"
-	"github.com/sat20-labs/name-ns/server/ns"
+	serverCommon "github.com/sat20-labs/name-dns/server/define"
+	"github.com/sat20-labs/name-dns/server/ns"
 	"go.etcd.io/bbolt"
 )
 

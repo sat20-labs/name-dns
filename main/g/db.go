@@ -3,7 +3,7 @@ package g
 import (
 	"time"
 
-	mainCommon "github.com/sat20-labs/name-ns/main/common"
+	mainCommon "github.com/sat20-labs/name-dns/main/common"
 	"go.etcd.io/bbolt"
 )
 

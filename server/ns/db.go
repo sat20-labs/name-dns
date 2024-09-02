@@ -3,7 +3,7 @@ package ns
 import (
 	"encoding/binary"
 
-	"github.com/sat20-labs/name-ns/common"
+	"github.com/sat20-labs/name-dns/common"
 	"go.etcd.io/bbolt"
 )
 

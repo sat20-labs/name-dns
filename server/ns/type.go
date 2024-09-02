@@ -1,7 +1,7 @@
 package ns
 
 import (
-	serverOrdx "github.com/sat20-labs/name-ns/server/define"
+	serverOrdx "github.com/sat20-labs/name-dns/server/define"
 )
 
 type NameCount struct {

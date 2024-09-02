@@ -4,9 +4,9 @@ import (
 	"flag"
 	"os"
 
-	"github.com/sat20-labs/name-ns/common"
-	mainCommon "github.com/sat20-labs/name-ns/main/common"
-	"github.com/sat20-labs/name-ns/main/g"
+	"github.com/sat20-labs/name-dns/common"
+	mainCommon "github.com/sat20-labs/name-dns/main/common"
+	"github.com/sat20-labs/name-dns/main/g"
 )
 
 func ParseCmdParams() {

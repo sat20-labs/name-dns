@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/sat20-labs/name-ns/common"
+	"github.com/sat20-labs/name-dns/common"
 )
 
 //go:embed templates/*

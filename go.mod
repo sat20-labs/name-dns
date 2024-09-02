@@ -1,4 +1,4 @@
-module github.com/sat20-labs/name-ns
+module github.com/sat20-labs/name-dns
 
 go 1.22.1
 

@@ -2,8 +2,8 @@ package ns
 
 import (
 	"github.com/gin-gonic/gin"
-	common "github.com/sat20-labs/name-ns/common"
-	serverCommon "github.com/sat20-labs/name-ns/server/define"
+	common "github.com/sat20-labs/name-dns/common"
+	serverCommon "github.com/sat20-labs/name-dns/server/define"
 	"go.etcd.io/bbolt"
 )
 

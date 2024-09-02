@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/sat20-labs/name-ns/common"
-	"github.com/sat20-labs/name-ns/main/flag"
-	"github.com/sat20-labs/name-ns/main/g"
+	"github.com/sat20-labs/name-dns/common"
+	"github.com/sat20-labs/name-dns/main/flag"
+	"github.com/sat20-labs/name-dns/main/g"
 )
 
 func init() {

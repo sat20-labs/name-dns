@@ -10,10 +10,10 @@ import (
 	"time"
 
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
-	"github.com/sat20-labs/name-ns/common"
-	mainCommon "github.com/sat20-labs/name-ns/main/common"
-	"github.com/sat20-labs/name-ns/server"
-	serverCommon "github.com/sat20-labs/name-ns/server/define"
+	"github.com/sat20-labs/name-dns/common"
+	mainCommon "github.com/sat20-labs/name-dns/main/common"
+	"github.com/sat20-labs/name-dns/server"
+	serverCommon "github.com/sat20-labs/name-dns/server/define"
 	"github.com/sirupsen/logrus"
 )
 
