@@ -10,10 +10,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3
 )
 
-require (
-	github.com/sat20-labs/gzip v0.0.0-20240626102838-3a9c9e96f75f
-	go.etcd.io/bbolt v1.3.11
-)
+require go.etcd.io/bbolt v1.3.11
 
 require (
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
@@ -26,7 +23,6 @@ require (
 )
 
 require (
-	github.com/andybalholm/brotli v1.1.0
 	github.com/bytedance/sonic v1.11.8 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.4 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect

@@ -4,11 +4,12 @@ log:
   level: debug
   path: log/mainnet.dev
 rpc:
+  host: deweb.me
+  site_map:
+    path: sitemap/mainnet.dev
   addr: 0.0.0.0:9006
-  domain_list:
-    - deweb.me
-    - dkvs.xyz
   log_path: log/mainnet.dev
 ordx_rpc:
-  ns_routing: https://apiprd.sat20.org/mainnet/ns/routing/
-  inscription_content: https://mainnet-ordinals.sat20.org/content/
+  ns_status: https://apiprd.sat20.org/mainnet/ns/status?start=%d&limit=%d
+  ns_routing: https://apiprd.sat20.org/mainnet/ns/routing/%s
+  inscription_content: https://mainnet-ordinals.sat20.org/content/%s

@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -12,30 +11,15 @@ import (
 )
 
 func (s *Service) content(c *gin.Context) {
-	isMatch := false
-	name := ""
-	for _, domain := range s.RpcConfig.DomainList {
-		if !strings.Contains(c.Request.Host, domain) {
-			continue
-		}
-		if c.Request.Host == domain {
-			continue
-		}
-		name = strings.TrimSuffix(c.Request.Host, "."+domain)
-		if name == "" {
-			continue
-		}
-		isMatch = true
-		break
-	}
-	if !isMatch {
-		msg := fmt.Sprintf("no match domain %s", c.Request.Host)
-		c.String(http.StatusBadRequest, msg)
+	name := getSubdomain(c)
+	if name == "" {
+		c.String(http.StatusBadRequest, "no find subdomain")
 		return
 	}
 
 	startTime := time.Now()
-	nsRoutingResp, _, err := common.ApiRequest(s.OrdxRpcConfig.NsRouting, name, "GET")
+	url := fmt.Sprintf(s.OrdxRpcConfig.NsRouting, name)
+	resp, _, err := common.ApiRequest(url, "GET")
 	elapsed := time.Since(startTime)
 	common.Log.Info(fmt.Sprintf("call: %s, elapsed time: %s", s.OrdxRpcConfig.NsRouting+name, elapsed))
 	if err != nil {
@@ -45,7 +29,7 @@ func (s *Service) content(c *gin.Context) {
 	}
 
 	var nameRoutingResp NameRoutingResp
-	err = json.Unmarshal(nsRoutingResp, &nameRoutingResp)
+	err = json.Unmarshal(resp, &nameRoutingResp)
 	if err != nil {
 		common.Log.Error(err)
 		c.String(http.StatusInternalServerError, err.Error())
@@ -62,7 +46,8 @@ func (s *Service) content(c *gin.Context) {
 	}
 
 	startTime = time.Now()
-	inscriptionContent, header, err := common.HtmlRequest(s.OrdxRpcConfig.InscriptionContent, nameRoutingResp.Data.Index)
+	url = fmt.Sprintf(s.OrdxRpcConfig.InscriptionContent, nameRoutingResp.Data.Index)
+	inscriptionContent, header, err := common.HtmlRequest(url)
 	elapsed = time.Since(startTime)
 
 	common.Log.Info(fmt.Sprintf("call: %s, elapsed time: %s", s.OrdxRpcConfig.InscriptionContent+nameRoutingResp.Data.Index, elapsed))
@@ -86,7 +71,7 @@ func (s *Service) content(c *gin.Context) {
 	if err := s.incNameCount(name); err != nil {
 		common.Log.Error(err)
 	}
-	if err := s.incTotalNameCount(); err != nil {
+	if err := s.incTotalNameAccessCount(); err != nil {
 		common.Log.Error(err)
 	}
 }

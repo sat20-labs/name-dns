@@ -49,43 +49,49 @@ func LoadConf(cfgPath string) (*conf.Conf, error) {
 	if err != nil {
 		return nil, err
 	}
-	if rpcService.Addr == "" {
-		rpcService.Addr = "0.0.0.0:80"
+	if rpcService.Host == "" {
+		rpcService.Host = "dkvs.xyz"
 	}
-	if len(rpcService.DomainList) == 0 {
-		rpcService.DomainList = []string{}
+	if rpcService.Addr == "" {
+		rpcService.Addr = "0.0.0.0:9006"
 	}
 	if rpcService.LogPath == "" {
-		rpcService.LogPath = "log"
+		rpcService.LogPath = "log/testnet4"
+	}
+	if rpcService.SiteMap.Path == "" {
+		rpcService.SiteMap.Path = "sitemap/testnet4"
 	}
 	ret.Rpc = rpcService
 	return ret, nil
 }
 
-func NewDefaultYamlConf() (*conf.Conf, error) {
+func NewDefaultConf() (*conf.Conf, error) {
 	ret := &conf.Conf{
 		DB: conf.DB{
 			Path: "db",
 		},
 		Log: conf.Log{
-			Level: "error",
-			Path:  "log",
+			Level: "debug",
+			Path:  "log/testnet4",
 		},
 		Rpc: serverCommon.Rpc{
-			Addr:       "0.0.0.0:80",
-			DomainList: []string{},
-			LogPath:    "log",
+			Host:    "dkvs.xyz",
+			Addr:    "0.0.0.0:9006",
+			LogPath: "log/testnet4",
+			SiteMap: serverCommon.SiteMap{
+				Path: "sitemap/testnet4",
+			},
 		},
 		OrdxRpc: serverCommon.OrdxRpc{
+			NsStatus:           "https://apiprd.sat20.org/testnet4/ns/status/",
 			NsRouting:          "https://apiprd.sat20.org/testnet4/ns/name/",
 			InscriptionContent: "https://apiprd.sat20.org/testnet4/ord/content/",
 		},
 	}
-
 	return ret, nil
 }
 
-func SaveYamlConf(conf *conf.Conf, filePath string) error {
+func SaveConf(conf *conf.Conf, filePath string) error {
 	data, err := yaml.Marshal(conf)
 	if err != nil {
 		return err

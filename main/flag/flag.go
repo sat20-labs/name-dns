@@ -45,7 +45,7 @@ func ParseCmdParams() {
 }
 
 func generateConfigFile() error {
-	cfg, err := NewDefaultYamlConf()
+	cfg, err := NewDefaultConf()
 	if err != nil {
 		return err
 	}
@@ -53,7 +53,7 @@ func generateConfigFile() error {
 	if err != nil {
 		return err
 	}
-	return SaveYamlConf(cfg, cfgPath+"/config.yaml")
+	return SaveConf(cfg, cfgPath+"/config.yaml")
 }
 
 func InitConf(cfgPath string) (err error) {

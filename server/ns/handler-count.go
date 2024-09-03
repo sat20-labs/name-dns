@@ -39,7 +39,7 @@ func (s *Service) countHtml(c *gin.Context) {
 		return
 	}
 
-	totalCount, err := s.getTotalNameCount()
+	totalCount, err := s.getTotalNameAccessCount()
 	if err != nil {
 		common.Log.Error(err)
 		c.String(http.StatusInternalServerError, err.Error())
@@ -53,7 +53,7 @@ func (s *Service) countHtml(c *gin.Context) {
 		NextPage   int
 		PageSize   int
 		TotalPages int
-		TotalCount int
+		TotalCount uint64
 	}{
 		NameCounts: nameCounts,
 		Page:       page,
