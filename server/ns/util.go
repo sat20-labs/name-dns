@@ -11,7 +11,11 @@ func getSubdomain(c *gin.Context) string {
 	re := regexp.MustCompile(pattern)
 	matches := re.FindStringSubmatch(c.Request.Host)
 	if len(matches) > 1 {
-		return matches[1]
+		subdomain := matches[1]
+		if subdomain[len(subdomain)-1] == '.' {
+			subdomain = subdomain[:len(subdomain)-1]
+		}
+		return subdomain
 	} else {
 		return ""
 	}

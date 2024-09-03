@@ -8,12 +8,19 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sat20-labs/name-dns/common"
+	"golang.org/x/net/idna"
 )
 
 func (s *Service) content(c *gin.Context) {
 	name := getSubdomain(c)
 	if name == "" {
 		c.String(http.StatusBadRequest, "no find subdomain")
+		return
+	}
+
+	name, err := idna.ToUnicode(name)
+	if err != nil {
+		fmt.Println("Error decoding from Punycode:", err)
 		return
 	}
 
