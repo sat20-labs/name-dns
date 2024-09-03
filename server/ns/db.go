@@ -12,7 +12,26 @@ const (
 	BUCKET_COMMON_SUMMARY       = "commomSummary"
 	KEY_TOTAL_NAME_ACCESS_COUNT = "totalNameAccessCount"
 	KEY_TOTAL_NAME_COUNT        = "totalNameCount"
+	KEY_TOTAL_NAME_DOMAIN_COUNT = "totalNameDomainCount"
 )
+
+func (s *Service) setTotalNameDomainCount(count uint64) error {
+	countBytes := make([]byte, 8)
+	binary.BigEndian.PutUint64(countBytes, count)
+	return common.PutBucket(s.DB, BUCKET_COMMON_SUMMARY, []byte(KEY_TOTAL_NAME_DOMAIN_COUNT), countBytes)
+}
+
+func (s *Service) getTotalNameDomainCount() (uint64, error) {
+	value, err := common.GetBucket(s.DB, BUCKET_COMMON_SUMMARY, []byte(KEY_TOTAL_NAME_DOMAIN_COUNT))
+	if err != nil {
+		return 0, err
+	}
+	count := uint64(0)
+	if value != nil {
+		count = binary.BigEndian.Uint64(value)
+	}
+	return count, err
+}
 
 func (s *Service) setTotalNameCount(count uint64) error {
 	countBytes := make([]byte, 8)
