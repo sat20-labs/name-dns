@@ -5,8 +5,6 @@ log:
   path: log/testnet4.dev
 rpc:
   host: dkvs.xyz
-  site_map:
-    path: sitemap/testnet4.dev
   addr: 0.0.0.0:9006
   log_path: log/testnet4.dev
 ordx_rpc:
