@@ -58,9 +58,6 @@ func LoadConf(cfgPath string) (*conf.Conf, error) {
 	if rpcService.LogPath == "" {
 		rpcService.LogPath = "log/testnet4"
 	}
-	if rpcService.SiteMap.Path == "" {
-		rpcService.SiteMap.Path = "sitemap/testnet4"
-	}
 	ret.Rpc = rpcService
 	return ret, nil
 }
@@ -78,12 +75,9 @@ func NewDefaultConf() (*conf.Conf, error) {
 			Host:    "dkvs.xyz",
 			Addr:    "0.0.0.0:9006",
 			LogPath: "log/testnet4",
-			SiteMap: serverCommon.SiteMap{
-				Path: "sitemap/testnet4",
-			},
 		},
 		OrdxRpc: serverCommon.OrdxRpc{
-			NsStatus:           "https://apiprd.sat20.org/testnet4/ns/status/",
+			NameList:           "https://apiprd.sat20.org/testnet4/ns/status/",
 			NsRouting:          "https://apiprd.sat20.org/testnet4/ns/name/",
 			InscriptionContent: "https://apiprd.sat20.org/testnet4/ord/content/",
 		},

@@ -10,6 +10,6 @@ rpc:
   addr: 0.0.0.0:9006
   log_path: log/mainnet.dev
 ordx_rpc:
-  ns_status: https://apiprd.sat20.org/mainnet/ns/status?start=%d&limit=%d
+  name_list: https://apiprd.sat20.org/mainnet/extension/name/list?cursor=%d&size=%d
   ns_routing: https://apiprd.sat20.org/mainnet/ns/routing/%s
   inscription_content: https://mainnet-ordinals.sat20.org/content/%s

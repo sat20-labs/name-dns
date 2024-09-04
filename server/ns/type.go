@@ -26,25 +26,34 @@ type NameRouting struct {
 	Index         string `json:"ord_index"`
 }
 
-type NameStatusResp struct {
+type KeyValueInDB struct {
+	Key           string `json:"key"`
+	Value         string `json:"value"`
+	InscriptionId string `json:"inscriptionId"`
+}
+
+type NameInfo struct {
+	InscriptionNumber  int64  `json:"inscriptionNumber"`
+	Name               string `json:"name"`
+	Sat                int64  `json:"sat"`
+	Address            string `json:"address"`
+	InscriptionId      string `json:"inscriptionId"`
+	Utxo               string `json:"utxo"`
+	Value              int64  `json:"value"`
+	BlockHeight        int64  `json:"height"`
+	BlockTimestamp     int64  `json:"timestamp"`
+	InscriptionAddress string `json:"inscriptionAddress"`
+	Preview            string `json:"preview"`
+	KVs                map[string]*KeyValueInDB
+}
+
+type NameListResp struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data struct {
-		Version string `json:"version"`
-		Total   uint64 `json:"total"`
-		Start   uint64 `json:"start"`
-		Names   []struct {
-			Id                 uint64 `json:"id"`
-			Name               string `json:"name"`
-			Sat                uint64 `json:"sat"`
-			Address            string `json:"address"`
-			InscriptionId      string `json:"inscription_id"`
-			Utxo               string `json:"utxo"`
-			Value              int64  `json:"value"`
-			Height             int64  `json:"height"`
-			Time               int64  `json:"time"`
-			InscriptionAddress string `json:"inscription_address"`
-		} `json:"names"`
+		Total uint64     `json:"total"`
+		Start uint64     `json:"start"`
+		List  []NameInfo `json:"list"`
 	} `json:"data"`
 }
 
