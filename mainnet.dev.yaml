@@ -5,8 +5,6 @@ log:
   path: log/mainnet.dev
 rpc:
   host: deweb.me
-  site_map:
-    path: sitemap/mainnet.dev
   addr: 0.0.0.0:9006
   log_path: log/mainnet.dev
 ordx_rpc:
