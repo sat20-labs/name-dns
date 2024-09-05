@@ -4951,11 +4951,12 @@ a.btn-arrow i {
 
 /* Services Style TWo */
 .services-style-two .item {
-	padding: 50px 37px;
+	padding: 30px 15px;
 	padding-bottom: 45px;
 	background: var(--white);
-	border-radius: 10px;
-	position: relative;
+	border-radius: 10px;	
+	align-items: center;
+	justify-items: center;
 }
 
 .services-style-two .item i {
@@ -4995,18 +4996,31 @@ a.btn-arrow i {
 }
 
 .services-style-two .item .icon {
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 }
 
 .services-style-two .item .icon img {
-	height: 65px;
+	height: 130px;
+	margin-left: 45px;
+	border-radius: 50%;
+	position: relative;		
 }
+
+.services-style-two .item:hover {
+    box-shadow: 0 0 0 1px var(--color-primary);
+    transform: translateY(-3px);	
+}
+
+/* .services-style-two {
+	box-shadow: 0px 8px 16px -2px rgba(32, 33, 36, 0.06), 0px 16px 32px -2px rgba(32, 33, 36, 0.1);
+} */
 
 .services-style-two .item .bottom {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin-top: 25px;
+	margin-top: 5px;
+	color: #3d3d3d;
 }
 
 
