@@ -14,6 +14,9 @@ import (
 //go:embed static/*
 var staticFiles embed.FS
 
+//go:embed assets/*
+var assetsFiles embed.FS
+
 var siteMapIndex = &SiteMapIndex{
 	XMLNS:           "http://www.sitemaps.org/schemas/sitemap/0.9",
 	SiteMapItemList: []*SiteMapIndexItem{},
@@ -58,13 +61,20 @@ func (s *Service) Init(r *gin.Engine) (err error) {
 
 func (s *Service) initRouter(r *gin.Engine) {
 	staticServer := http.FS(staticFiles)
-	r.StaticFS("/static", staticServer)
-	r.GET("/favicon.ico", func(c *gin.Context) {
-		c.FileFromFS("static/favicon.ico", staticServer)
+	staticFileServer := http.FileServer(staticServer)
+	assetsServer := http.FS(assetsFiles)
+	assetsFileServer := http.FileServer(assetsServer)
+	r.GET("/static/*filepath", func(c *gin.Context) {
+		staticFileServer.ServeHTTP(c.Writer, c.Request)
 	})
+	r.GET("/assets/*filepath", func(c *gin.Context) {
+		assetsFileServer.ServeHTTP(c.Writer, c.Request)
+	})
+
 	r.GET("/robots.txt", s.robots)
-	r.GET("/sitemap_index.xml", s.siteMapIndex)
-	r.GET("/:index.xml", s.siteMapItem)
+	r.GET("/sitemap/sitemap_index.xml", s.siteMapIndex)
+	r.GET("/sitemap/:index.xml", s.siteMapItem)
 	r.GET("/", s.content)
+
 	r.GET("/summary/name-count", s.countHtml)
 }

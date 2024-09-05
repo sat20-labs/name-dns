@@ -14,7 +14,7 @@ import (
 
 func (s *Service) robots(c *gin.Context) {
 	host := c.Request.Host
-	sitemapURL := "https://" + host + "/sitemap_index.xml"
+	sitemapURL := "https://" + host + "/sitemap/sitemap_index.xml"
 	robotsContent := "User-agent: *\n" +
 		"Disallow: /private/\n\n" +
 		"Disallow: /admin/\n\n" +
@@ -44,7 +44,7 @@ func (s *Service) siteMapIndex(c *gin.Context) {
 
 		for index := uint64(0); index <= nameListResp.Data.Total/SITE_MAP_ITEM_COUNT; index++ {
 			siteMapItem := &SiteMapIndexItem{
-				Loc:     fmt.Sprintf("https://%s/%d.xml", s.RpcConfig.Host, index),
+				Loc:     fmt.Sprintf("https://%s/sitemap/%d.xml", s.RpcConfig.Host, index),
 				LastMod: time.Now().Format("2006-01-02"),
 			}
 			siteMapIndex.SiteMapItemList = append(siteMapIndex.SiteMapItemList, siteMapItem)
@@ -59,11 +59,6 @@ func (s *Service) siteMapIndex(c *gin.Context) {
 	if err != nil {
 		common.Log.Error(err)
 	}
-
-	// err = os.WriteFile("./sitemap_index.xml", xmlData, 0644)
-	// if err != nil {
-	// 	common.Log.Errorf("save sitemap index error: %s", err.Error())
-	// }
 }
 
 func (s *Service) siteMapItem(c *gin.Context) {
