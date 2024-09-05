@@ -9,24 +9,17 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sat20-labs/name-dns/common"
 	"golang.org/x/net/idna"
-	// "github.com/sat20-labs/name-dns/common"
-	// "golang.org/x/net/idna"
 )
 
 func (s *Service) content(c *gin.Context) {
-	if s.RpcConfig.Host == c.Request.Host {
+	name := getSubdomain(c)
+	if name == "" {
 		data, err := staticFiles.ReadFile("static/index.html")
 		if err != nil {
 			c.String(http.StatusInternalServerError, "index.html not found")
 			return
 		}
 		c.Data(http.StatusOK, "text/html; charset=utf-8", data)
-		return
-	}
-
-	name := getSubdomain(c)
-	if name == "" {
-		c.String(http.StatusBadRequest, "no find subdomain")
 		return
 	}
 	name, err := idna.ToUnicode(name)
