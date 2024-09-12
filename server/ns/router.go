@@ -71,6 +71,6 @@ func (s *Service) initRouter(r *gin.Engine) {
 	// r.GET("/sitemap/sitemap_index.xml", s.siteMapIndex)
 	// r.GET("/sitemap/:index.xml", s.siteMapItem)
 	r.GET("/", s.content)
-
-	r.GET("/summary/name-count", s.countHtml)
+	r.GET("/namelist", s.nameCount)
+	r.GET("/summary", s.summary)
 }

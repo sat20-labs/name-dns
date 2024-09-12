@@ -1,72 +1,67 @@
 package ns
 
 import (
-	"embed"
-	"html/template"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sat20-labs/name-dns/common"
 )
 
-//go:embed templates/*
-var templatesRes embed.FS
-
-func (s *Service) countHtml(c *gin.Context) {
-	page, err := strconv.Atoi(c.DefaultQuery("page", "1"))
-	if err != nil || page < 1 {
-		page = 1
+func (s *Service) nameCount(c *gin.Context) {
+	resp := &NameCountListResp{
+		BaseResp: BaseResp{
+			Code: 0,
+			Msg:  "ok",
+		},
+		Data: &NameCountListData{
+			ListResp: ListResp{
+				Total: 0,
+			},
+			List: make([]*NameCount, 0),
+		},
 	}
 
-	pageSize, err := strconv.Atoi(c.DefaultQuery("pageSize", "30"))
-	if err != nil || pageSize < 1 {
-		pageSize = 10
+	req := RangeReq{Cursor: 0, Size: 100}
+	if err := c.ShouldBindQuery(&req); err != nil {
+		resp.Code = -1
+		resp.Msg = err.Error()
+		c.JSON(http.StatusOK, resp)
+		return
 	}
 
-	nameCounts, totalPage, err := s.getNameCounts(page, pageSize)
+	if req.Cursor < 0 {
+		req.Cursor = 0
+	}
+
+	if req.Size < 1 || req.Size > 1000 {
+		req.Size = 100
+	}
+
+	list, total, err := s.getNameCountList(req.Cursor, req.Size)
 	if err != nil {
 		common.Log.Error(err)
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	templateFile := "templates/name_count.html"
-	tmpl, err := template.ParseFS(templatesRes, templateFile)
-	if err != nil {
-		common.Log.Error(err)
-		c.String(http.StatusInternalServerError, err.Error())
-		return
-	}
+	resp.Data.Total = uint64(total)
+	resp.Data.List = list
+	c.JSON(http.StatusOK, resp)
+}
 
+func (s *Service) summary(c *gin.Context) {
+	resp := &SummaryResp{
+		BaseResp: BaseResp{
+			Code: 0,
+			Msg:  "ok",
+		},
+	}
 	totalCount, err := s.getTotalNameAccessCount()
 	if err != nil {
 		common.Log.Error(err)
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
-	totalPages := (totalPage + pageSize - 1) / pageSize
-	data := struct {
-		NameCounts []NameCount
-		Page       int
-		PrevPage   int
-		NextPage   int
-		PageSize   int
-		TotalPages int
-		TotalCount uint64
-	}{
-		NameCounts: nameCounts,
-		Page:       page,
-		PrevPage:   page - 1,
-		NextPage:   page + 1,
-		PageSize:   pageSize,
-		TotalPages: totalPages,
-		TotalCount: totalCount,
-	}
-
-	c.Header("Content-Type", "text/html; charset=utf-8")
-	if err := tmpl.Execute(c.Writer, data); err != nil {
-		common.Log.Error(err)
-		c.String(http.StatusInternalServerError, err.Error())
-	}
+	resp.TotalNameAccessCount = uint64(totalCount)
+	c.JSON(http.StatusOK, resp)
 }

@@ -6,6 +6,20 @@ import (
 	serverOrdx "github.com/sat20-labs/name-dns/server/define"
 )
 
+type BaseResp struct {
+	Code int    `json:"code" example:"0"`
+	Msg  string `json:"msg" example:"ok"`
+}
+
+type RangeReq struct {
+	Cursor int `form:"cursor" binding:"omitempty"`
+	Size   int `form:"size" binding:"omitempty"`
+}
+
+type ListResp struct {
+	Total uint64 `json:"total" example:"9992"`
+}
+
 type NameCount struct {
 	Name  string
 	Count uint64
@@ -79,4 +93,19 @@ type SiteMapItem struct {
 	XMLName xml.Name          `xml:"urlset"`
 	XMLNS   string            `xml:"xmlns,attr"`
 	URLs    []*SiteMapItemURL `xml:"url"`
+}
+
+type NameCountListData struct {
+	ListResp
+	List []*NameCount `json:"list"`
+}
+
+type NameCountListResp struct {
+	BaseResp
+	Data *NameCountListData `json:"data"`
+}
+
+type SummaryResp struct {
+	BaseResp
+	TotalNameAccessCount uint64 `json:"totalNameAccessCount"`
 }

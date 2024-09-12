@@ -7,8 +7,8 @@ import (
 	"github.com/sat20-labs/name-dns/common"
 )
 
-func (s *Service) ReqNameList(start, limit uint64) (*NameListResp, error) {
-	url := fmt.Sprintf(s.OrdxRpcConfig.NameList, start, limit)
+func (s *Service) ReqNameList(cursor, size uint64) (*NameListResp, error) {
+	url := fmt.Sprintf(s.OrdxRpcConfig.NameList, cursor, size)
 	resp, _, err := common.ApiRequest(url, "GET")
 	if err != nil {
 		return nil, err

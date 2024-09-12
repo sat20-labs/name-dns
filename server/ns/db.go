@@ -92,30 +92,27 @@ func (s *Service) incNameCount(name string) error {
 	return common.PutBucket(s.DB, BUCKET_NAME_COUNT, []byte(name), countBytes)
 }
 
-func (s *Service) getNameCounts(page, pageSize int) ([]NameCount, int, error) {
-	var nameCounts []NameCount
+func (s *Service) getNameCountList(cursor, size int) ([]*NameCount, int, error) {
+	var list []*NameCount
 	var total int
 
 	err := s.DB.View(func(tx *bbolt.Tx) error {
 		bucket := tx.Bucket([]byte(BUCKET_NAME_COUNT))
-		cursor := bucket.Cursor()
+		bucketCursor := bucket.Cursor()
 
-		skip := (page - 1) * pageSize
 		count := 0
-
-		for k, v := cursor.First(); k != nil; k, v = cursor.Next() {
-			if skip > 0 {
-				skip--
+		for k, v := bucketCursor.First(); k != nil; k, v = bucketCursor.Next() {
+			if cursor > 0 {
+				cursor--
 				continue
 			}
-
-			if count >= pageSize {
+			if count >= size {
 				break
 			}
-
-			name := string(k)
-			countVal := binary.BigEndian.Uint64(v)
-			nameCounts = append(nameCounts, NameCount{Name: name, Count: countVal})
+			list = append(list, &NameCount{
+				Name:  string(k),
+				Count: binary.BigEndian.Uint64(v)},
+			)
 			count++
 		}
 
@@ -123,5 +120,5 @@ func (s *Service) getNameCounts(page, pageSize int) ([]NameCount, int, error) {
 		return nil
 	})
 
-	return nameCounts, total, err
+	return list, total, err
 }
