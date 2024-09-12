@@ -7,7 +7,7 @@ import (
 	"github.com/sat20-labs/name-dns/common"
 )
 
-func (s *Service) nameCount(c *gin.Context) {
+func (s *Service) nameAccessCount(c *gin.Context) {
 	resp := &NameCountListResp{
 		BaseResp: BaseResp{
 			Code: 0,
@@ -37,7 +37,7 @@ func (s *Service) nameCount(c *gin.Context) {
 		req.Size = 100
 	}
 
-	list, total, err := s.getNameCountList(req.Cursor, req.Size)
+	list, total, err := s.getAccessNameCountList(req.Cursor, req.Size)
 	if err != nil {
 		common.Log.Error(err)
 		c.String(http.StatusInternalServerError, err.Error())

@@ -106,7 +106,7 @@ func (s *Service) getTotalNameAccessCount() (uint64, error) {
 	return count, err
 }
 
-func (s *Service) incNameCount(name string) error {
+func (s *Service) incNameAccessCount(name string) error {
 	value, err := common.GetBucket(s.DB, BUCKET_NAME_COUNT, []byte(name))
 	if err != nil {
 		return err
@@ -120,7 +120,7 @@ func (s *Service) incNameCount(name string) error {
 	return common.PutBucket(s.DB, BUCKET_NAME_COUNT, []byte(name), countBytes)
 }
 
-func (s *Service) getNameCountList(cursor, size int) ([]*NameCount, int, error) {
+func (s *Service) getAccessNameCountList(cursor, size int) ([]*NameCount, int, error) {
 	var list []*NameCount
 	var total int
 
@@ -138,8 +138,8 @@ func (s *Service) getNameCountList(cursor, size int) ([]*NameCount, int, error) 
 				break
 			}
 			list = append(list, &NameCount{
-				Name:  string(k),
-				Count: binary.BigEndian.Uint64(v)},
+				Name:        string(k),
+				AccessCount: binary.BigEndian.Uint64(v)},
 			)
 			count++
 		}

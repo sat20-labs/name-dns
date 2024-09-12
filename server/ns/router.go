@@ -70,8 +70,8 @@ func (s *Service) initRouter(r *gin.Engine) {
 	// r.GET("/robots.txt", s.robots)
 	// r.GET("/sitemap/sitemap_index.xml", s.siteMapIndex)
 	// r.GET("/sitemap/:index.xml", s.siteMapItem)
-	r.GET("/", s.content)
-	r.GET("/namelist", s.nameCount)
+	r.GET("/", s.nameContent)
+	r.GET("/name/access-count", s.nameAccessCount)
 	r.GET("/summary", s.summary)
 	r.GET("/add-index-html-access-count", s.addIndexHtmlAccessCount)
 }

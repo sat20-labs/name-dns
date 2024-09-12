@@ -21,8 +21,8 @@ type ListResp struct {
 }
 
 type NameCount struct {
-	Name  string
-	Count uint64
+	Name        string `json:"name"`
+	AccessCount uint64 `json:"accessCount"`
 }
 
 type NameRoutingResp struct {
