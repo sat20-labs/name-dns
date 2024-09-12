@@ -57,14 +57,42 @@ func (s *Service) summary(c *gin.Context) {
 		},
 		Data: &SummaryData{
 			TotalNameAccessCount: 0,
+			IndexHtmlAccessCount: 0,
 		},
 	}
-	totalCount, err := s.getTotalNameAccessCount()
+	totalNameAccessCount, err := s.getTotalNameAccessCount()
 	if err != nil {
 		common.Log.Error(err)
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
-	resp.Data.TotalNameAccessCount = uint64(totalCount)
+
+	indexHtmlAccessCount, err := s.getIndexHtmlAccessCount()
+	if err != nil {
+		common.Log.Error(err)
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	resp.Data = &SummaryData{
+		TotalNameAccessCount: totalNameAccessCount,
+		IndexHtmlAccessCount: indexHtmlAccessCount,
+	}
+	c.JSON(http.StatusOK, resp)
+}
+
+func (s *Service) addIndexHtmlAccessCount(c *gin.Context) {
+	resp := BaseResp{
+		Code: 0,
+		Msg:  "ok",
+	}
+
+	err := s.incTotalNameAccessCount()
+	if err != nil {
+		common.Log.Error(err)
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+
 	c.JSON(http.StatusOK, resp)
 }

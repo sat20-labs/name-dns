@@ -11,6 +11,7 @@ const (
 	BUCKET_NAME_COUNT           = "nameCount"
 	BUCKET_COMMON_SUMMARY       = "commomSummary"
 	KEY_TOTAL_NAME_ACCESS_COUNT = "totalNameAccessCount"
+	KEY_INDEX_HTML_ACCESS_COUNT = "indexHtmlAccessCount"
 	KEY_TOTAL_NAME_COUNT        = "totalNameCount"
 	KEY_TOTAL_NAME_DOMAIN_COUNT = "totalNameDomainCount"
 )
@@ -48,6 +49,33 @@ func (s *Service) getTotalNameCount() (uint64, error) {
 	if value != nil {
 		count = binary.BigEndian.Uint64(value)
 	}
+	return count, err
+}
+
+func (s *Service) incIndexHtmlAccessCount() error {
+	value, err := common.GetBucket(s.DB, BUCKET_COMMON_SUMMARY, []byte(KEY_INDEX_HTML_ACCESS_COUNT))
+	if err != nil {
+		return err
+	}
+	count := uint64(1)
+	if value != nil {
+		count = binary.BigEndian.Uint64(value) + 1
+	}
+	countBytes := make([]byte, 8)
+	binary.BigEndian.PutUint64(countBytes, count)
+	return common.PutBucket(s.DB, BUCKET_COMMON_SUMMARY, []byte(KEY_INDEX_HTML_ACCESS_COUNT), countBytes)
+}
+
+func (s *Service) getIndexHtmlAccessCount() (uint64, error) {
+	value, err := common.GetBucket(s.DB, BUCKET_COMMON_SUMMARY, []byte(KEY_INDEX_HTML_ACCESS_COUNT))
+	if err != nil {
+		return 0, err
+	}
+	count := uint64(0)
+	if value != nil {
+		count = binary.BigEndian.Uint64(value) + 1
+	}
+
 	return count, err
 }
 

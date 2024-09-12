@@ -107,6 +107,7 @@ type NameCountListResp struct {
 
 type SummaryData struct {
 	TotalNameAccessCount uint64 `json:"totalNameAccessCount"`
+	IndexHtmlAccessCount uint64 `json:"indexHtmlAccessCount"`
 }
 
 type SummaryResp struct {

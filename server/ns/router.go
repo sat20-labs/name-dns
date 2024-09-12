@@ -73,4 +73,5 @@ func (s *Service) initRouter(r *gin.Engine) {
 	r.GET("/", s.content)
 	r.GET("/namelist", s.nameCount)
 	r.GET("/summary", s.summary)
+	r.GET("/add-index-html-access-count", s.addIndexHtmlAccessCount)
 }
