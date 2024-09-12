@@ -55,6 +55,9 @@ func (s *Service) summary(c *gin.Context) {
 			Code: 0,
 			Msg:  "ok",
 		},
+		Data: &SummaryData{
+			TotalNameAccessCount: 0,
+		},
 	}
 	totalCount, err := s.getTotalNameAccessCount()
 	if err != nil {
@@ -62,6 +65,6 @@ func (s *Service) summary(c *gin.Context) {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
-	resp.TotalNameAccessCount = uint64(totalCount)
+	resp.Data.TotalNameAccessCount = uint64(totalCount)
 	c.JSON(http.StatusOK, resp)
 }
