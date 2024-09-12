@@ -87,7 +87,7 @@ func (s *Service) addIndexHtmlAccessCount(c *gin.Context) {
 		Msg:  "ok",
 	}
 
-	err := s.incTotalNameAccessCount()
+	err := s.incIndexHtmlAccessCount()
 	if err != nil {
 		common.Log.Error(err)
 		c.String(http.StatusInternalServerError, err.Error())
