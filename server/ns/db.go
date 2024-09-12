@@ -110,8 +110,8 @@ func (s *Service) getNameCountList(cursor, size int) ([]*NameCount, int, error) 
 				break
 			}
 			list = append(list, &NameCount{
-				Name:  string(k),
-				Count: binary.BigEndian.Uint64(v)},
+				Name:       string(k),
+				ClickCount: binary.BigEndian.Uint64(v)},
 			)
 			count++
 		}

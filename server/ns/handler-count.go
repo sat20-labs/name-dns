@@ -7,7 +7,7 @@ import (
 	"github.com/sat20-labs/name-dns/common"
 )
 
-func (s *Service) nameCount(c *gin.Context) {
+func (s *Service) nameCallCount(c *gin.Context) {
 	resp := &NameCountListResp{
 		BaseResp: BaseResp{
 			Code: 0,
@@ -49,14 +49,14 @@ func (s *Service) nameCount(c *gin.Context) {
 	c.JSON(http.StatusOK, resp)
 }
 
-func (s *Service) summary(c *gin.Context) {
+func (s *Service) nameSummary(c *gin.Context) {
 	resp := &SummaryResp{
 		BaseResp: BaseResp{
 			Code: 0,
 			Msg:  "ok",
 		},
 		Data: &SummaryData{
-			TotalNameAccessCount: 0,
+			TotalNameClickCount: 0,
 		},
 	}
 	totalCount, err := s.getTotalNameAccessCount()
@@ -65,6 +65,6 @@ func (s *Service) summary(c *gin.Context) {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
-	resp.Data.TotalNameAccessCount = uint64(totalCount)
+	resp.Data.TotalNameClickCount = uint64(totalCount)
 	c.JSON(http.StatusOK, resp)
 }

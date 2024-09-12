@@ -11,7 +11,7 @@ import (
 	"golang.org/x/net/idna"
 )
 
-func (s *Service) content(c *gin.Context) {
+func (s *Service) nameContent(c *gin.Context) {
 	name := getSubdomain(c)
 	if name == "" {
 		data, err := staticFiles.ReadFile("static/index.html")

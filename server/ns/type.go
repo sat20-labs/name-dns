@@ -21,8 +21,8 @@ type ListResp struct {
 }
 
 type NameCount struct {
-	Name  string
-	Count uint64
+	Name       string `json:"name"`
+	ClickCount uint64 `json:"clickCount"`
 }
 
 type NameRoutingResp struct {
@@ -106,7 +106,7 @@ type NameCountListResp struct {
 }
 
 type SummaryData struct {
-	TotalNameAccessCount uint64 `json:"totalNameAccessCount"`
+	TotalNameClickCount uint64 `json:"totalNameClickCount"`
 }
 
 type SummaryResp struct {
